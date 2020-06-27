@@ -35,7 +35,7 @@ app.get("/quotes/random", function(request, response) {
   let randomQuote = pickFromArray(Quotes);
   response.json(
     {
-      Quotes: randomQuote.quote,
+      Quote: randomQuote.quote,
       author: randomQuote.author
     });
 })
