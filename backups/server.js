@@ -13,34 +13,50 @@ const Quotes = require("../quotes.json");
 //   /                  - Return some helpful welcome info (text)
 //   /quotes            - Should return all quotes (json)
 //   /quotes/random     - Should return ONE quote (json)
-app.get("/", function(request, response) {
-  response.json(
-    {
-      App: "Quotes node js",
-      Student_FullName: "Afshin Karamifar",
-      Position: "Trainee at Code Your Future",
-      Company: "Code Your Future",
-      URL: "https://codeyourfuture.io/"
-    });
+app.get("/", function (request, response) {
+  response.json({
+    App: "Quotes node js",
+    Student_FullName: "Afshin Karamifar",
+    Position: "Trainee at Code Your Future",
+    Company: "Code Your Future",
+    URL: "https://codeyourfuture.io/",
+  });
 });
 
 //START OF YOUR CODE...
 
 // All Quotes
-app.get("/quotes", function(request, response) {
+app.get("/quotes", function (request, response) {
   response.json(Quotes);
-})
+});
 
 //Random Quotes
-app.get("/quotes/random", function(request, response) {
+app.get("/quotes/random", function (request, response) {
   let randomQuote = pickFromArray(Quotes);
-  response.json(
-    {
-      Quote: randomQuote.quote,
-      author: randomQuote.author
-    });
-})
-
+  response.json({
+    Quote: randomQuote.quote,
+    author: randomQuote.author,
+  });
+});
+// Search Term
+app.get("/quotes/search", function (request, response) {
+  let { term } = request.query;
+  if (term !== "") {
+    let searchResult = Quotes.filter(
+      (quote) =>
+        quote.quote.toLocaleLowerCase().includes(term.toLocaleLowerCase()) ||
+        quote.author.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+    );
+    if (searchResult.length > 0) {
+      response.json(searchResult);
+    }
+    else{
+      response.json({
+        Error: "Nothing to show !!!"
+      })
+    }
+  }
+});
 //...END OF YOUR CODE
 
 //You can use this function to pick one element at random from a given array
@@ -56,4 +72,4 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server started on port: ${PORT}`);
-})
+});
