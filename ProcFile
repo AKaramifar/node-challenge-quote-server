@@ -1,1 +1,1 @@
-web: node .\backups\server.js
+web: nodemon .\backups\server.js
