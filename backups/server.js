@@ -52,7 +52,7 @@ app.get("/quotes/search", function (request, response) {
     }
     else{
       response.json({
-        Error: "Nothing to show !!!"
+        Error: "404, Not Found!!!"
       })
     }
   }
